@@ -2,6 +2,8 @@
 #include <vector>
 #include<algorithm>  
 using namespace std;
+//by kliiu
+
 //2022.1.18 数组
 
 //1.两数之和 暴力解法
@@ -223,11 +225,108 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 
 }
 
-int main()
-{
+//两个数组的交集
+//给你两个整数数组nums1 和 nums2 ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。
+//暴力循环
+vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+    vector<int> ans;
+    vector<char> if_add(nums2.size(),'n');//it's single quotes 'n' not double
+    //n stands for not added yet, y stands for this element had been added in ans
+    for(auto it=nums1.begin();it!=nums1.end();++it)
+    {
+        for(int i=0;i<nums2.size();i++)
+        {   if(if_add[i]=='n')
+            {
+                if (*it == nums2[i]) //if equal
+                {
+                    ans.push_back(*it);//add to ans
+                    if_add[i] = 'y';//set this element in num2 'y'
+                    break;
+                }//if it==it2 add it to ans, each one element should only be compared once thus break
+            }
+        }
+    }
+    return ans;
 
-	vector<int> nums1 = { 4,5,6,0,0,0};
-	vector<int> nums2 = { 1,2,3};
-	merge(nums1,3,nums2,3);
-	return 0;
+
+}
+//121买卖股票的最佳时机
+//TLE
+int maxProfit_TLE(vector<int>& prices) {
+    int ans=0;//max profit
+    for(auto it1=prices.begin();it1!=prices.end()-1;++it1)//最后一天不遍历，无法在最后一天买入并卖出
+        for(auto it2=it1+1;it2!=prices.end();++it2)
+        {
+            if(*it2-*it1 > ans)ans=*it2 - *it1;//若此时卖出的利润大于ans，则更新ans；
+
+        }
+    return ans;
+}
+//AC
+int maxProfit(vector<int>& prices) {
+  int min_buy=*prices.begin();//最小卖出
+  int max_profit=0;//最大利润
+  for(auto it=prices.begin()+1;it!=prices.end();++it)//
+  {//扫描每一个元素，记录并保持更新最小买入和最大利润，当利润更大时更新最大利润
+      if(*it<min_buy)min_buy=*it;//更新最小买入
+      if(*it-min_buy>max_profit&&*it-min_buy>0)max_profit=*it-min_buy;//更新最大利润
+  }
+  return max_profit;
+}
+vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+
+    vector<vector<int>> ans;
+    //先判断是否合理
+    if(mat.size()*mat[0].size()!=r*c)
+        return mat;//不符合则返回原矩阵
+    //再reshape
+    //将所有元素放入展平再放入
+    //展平
+    vector<int> all;
+    for(int i=0;i<mat.size();i++)
+    {
+        for(auto it=mat[i].begin();it!=mat[i].end();++it)
+            all.push_back(*it);
+    }
+    //按给定当行数和列数依次填入
+    int cnt=0;//标记填入元素
+    for(int i=0;i<r;i++){
+        vector<int> temp;//存放每一行元素
+        for(int j=0;j<c;j++){
+            //push
+            temp.push_back(all[cnt]);
+            cnt++;
+        }
+        //将完成的一行加入ans
+        ans.push_back(temp);
+    }
+
+    return ans;
+
+}
+//118. 杨辉三角
+//暴力解
+vector<vector<int>> generate(int numRows) {
+    vector<vector<int>> ans;
+    ans.push_back({1});
+    if(numRows==1)return ans;
+    for(int i=1;i<numRows;i++)
+    {
+        vector<int> temp;
+        temp.push_back(1);//开头的1
+        for(int j=1;j<i;j++)
+            temp.push_back(ans[i-1][j-1]+ans[i-1][j]);
+        temp.push_back(1);//最后的1
+        ans.push_back(temp);
+    }
+    return ans;
+}
+
+int main() {
+    vector<int> nums1 = {7, 1, 5, 3, 6, 4};
+    vector<vector<int>> mat = {{1,2},{3,4}};
+    int r = 2;
+    int c = 4;
+    vector<vector<int>> a= generate(5);
+    return 0;
 }
