@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-#include<algorithm>  
+#include<algorithm>
+#include <set>
 using namespace std;
 //by kliiu
 
@@ -321,12 +322,67 @@ vector<vector<int>> generate(int numRows) {
     }
     return ans;
 }
+//36 有效的数独
+bool isValidSudoku(vector<vector<char>>& board) {
+    vector<int> row_flag(10,0);//一行标志每个数字上一次出现的位置9*1
+    vector<int> col_flag(10,0);//一列标志每个数字上一次出现的位置9*1
+    vector<vector<int>> group_flag(10,col_flag);//group[i][j]表示第i宫的数字j是否出现
+    //对一行一列依次进行扫描，同时更新每个数所在的组数
+    for(int i = 0;i<9;i++){
+        for(int j =0;j<9;j++){
+            if(board[i][j]!='.'){
+                if(row_flag[board[i][j]-'0']==1||group_flag[i/3*3+j/3][board[i][j]-'0']==1){return false;//若已标记则返回false，不满足
+                }
+                else{
+                    row_flag[board[i][j]-'0']=1;//行扫描,并标记
+                    //(x/3)*3+y/3为（x，y)所在的3*3宫编号
+                    //（4,5)在3+1=4，第4宫（0开始编号）
+                    group_flag[i/3*3+j/3][board[i][j]-'0']=1;//组标记
+                    //board[i][j]-'0'将字符char转为int，'0'=48
 
+                }
+            }
+            if(board[j][i]!='.'){if(col_flag[board[j][i]-'0']==1)return false;
+                else col_flag[board[j][i]-'0']=1;//列扫描将该数字标记变为1
+            }
+        }
+        //将行列位置置0
+        fill(row_flag.begin(),row_flag.end(),0);
+        fill(col_flag.begin(),col_flag.end(),0);
+    }
+    return true;
+}
+
+
+//73矩阵置0
+void setZeroes(vector<vector<int>>& matrix) {
+    set<int> rows;
+    set<int> cols;
+    for(int i=0;i<matrix.size();i++)
+        for(int j=0; j<matrix[i].size();j++)
+        {
+            if(matrix[i][j]==0)//若等于0则将其所在行列均置0
+            {
+                //保存行列数
+                rows.emplace(i);//比insert更快
+                cols.emplace(j);
+            }
+
+
+        }
+    //开始置0
+    for(int i=0;i<matrix.size();i++)
+        for(int j=0; j<matrix[i].size();j++)
+        {
+            if(rows.find(i)!=rows.end()||cols.find(j)!=cols.end())
+                matrix[i][j]=0;
+        }
+
+}
 int main() {
-    vector<int> nums1 = {7, 1, 5, 3, 6, 4};
-    vector<vector<int>> mat = {{1,2},{3,4}};
-    int r = 2;
-    int c = 4;
-    vector<vector<int>> a= generate(5);
+    vector<int> nums1 = {0, 1, 5, 3, 6, 4};
+    vector<vector<int>>mat={{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+    setZeroes(mat);
+    //bool a= isValidSudoku(mat);
     return 0;
 }
