@@ -5,6 +5,12 @@
 using namespace std;
 //by kliiu
 
+class Vectors {
+public:
+    int firstUniqChar(string s) {
+
+    }
+};
 //2022.1.18 数组
 
 //1.两数之和 暴力解法
@@ -379,6 +385,7 @@ void setZeroes(vector<vector<int>>& matrix) {
         }
 
 }
+/*
 int main() {
     vector<int> nums1 = {0, 1, 5, 3, 6, 4};
     vector<vector<int>>mat={{0,1,2,0},{3,4,5,2},{1,3,1,5}};
@@ -386,3 +393,4 @@ int main() {
     //bool a= isValidSudoku(mat);
     return 0;
 }
+ */
