@@ -38,12 +38,46 @@ int firstUniqChar_o(string s) {
     }
     return -1;
 }
+bool canConstruct(string ransomNote, string magazine) {
+    unordered_map<char,int> cnt;
+    //先遍历magazine对元素计数
 
+    for(auto c:magazine)
+    {
+        cnt[c]++;
+    }
+    //再遍历ransom note，不满足条件则返回false
+    for(auto c:ransomNote)
+    {
+        if(cnt[c]==0)return false;
+        else cnt[c]--;
+    }
+    return true;
+}
+bool isAnagram(string s, string t) {
+    unordered_map<char,int> s_cnt;
+    unordered_map<char,int> t_cnt;
 
+    for(auto c:s)
+    {
+        s_cnt[c]++;//count s的字符数
+    }
+    for(auto c:t)
+    {
+        t_cnt[c]++;//t的
+    }
+    if(s_cnt.size()!=t_cnt.size())return false;//如果字符种类不同直接false
+    for(auto it:s_cnt){
+    //若有s中字符数与t中不等则false；
+        if(t_cnt[it.first]!=it.second)return false;
+    }
+    return true;
+}
 
 int main()
 {
-    string a="loveleetcode";
-    int ans=firstUniqChar_o(a);
+    string s="anagram";
+    string t="nagaram";
+    bool ans=isAnagram(s,t);
     return 0;
 }
