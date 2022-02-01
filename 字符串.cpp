@@ -73,7 +73,7 @@ bool isAnagram(string s, string t) {
     }
     return true;
 }
-
+/*
 int main()
 {
     string s="anagram";
@@ -81,3 +81,4 @@ int main()
     bool ans=isAnagram(s,t);
     return 0;
 }
+ */
