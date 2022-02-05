@@ -81,15 +81,72 @@ ListNode *creatList(vector<int> num)
     };
     return  list;
 }
+ListNode *creatList_head(vector<int> nums){
 
-
+    ListNode* head=new ListNode();
+    ListNode* p=head;
+    for(auto i:nums)
+    {
+        ListNode* temp=new ListNode(i);
+        p->next=temp;
+        p=p->next;
+    }
+    return head;
+}
+//203移除链表元素
+ListNode* removeElements(ListNode* head, int val) {
+    ListNode* newhead=new ListNode();
+    newhead->next=head;
+    ListNode* p=head;
+    ListNode* pre=newhead;//pre.next=p
+    while(p){
+        //if p.val==val, delete this element
+        if(p->val==val) pre->next=p->next;
+        else pre=pre->next;
+        p=p->next;
+    }
+    return newhead->next;
+}
+//206反转链表
+ListNode* reverseList(ListNode* head) {
+    ListNode* p=head;//当前节点
+    ListNode* pre=NULL;//存储前一个
+    ListNode* next=head;//存储后一个
+    while(p) {
+        //先更新后一个
+        next=next->next;
+        //使当前节点指向前一个节点
+        p->next=pre;
+        //更新前驱节点为当前节点
+        pre=p;
+        //更新当前节点
+        p=next;
+    }
+    return pre;//链表为空则返回空指针；
+}
+//83删除排序链表中的重复元素
+ListNode* deleteDuplicates(ListNode* head) {
+    ListNode* pre=head;
+    ListNode* p=pre;
+    while(p)
+    {   //若当前节点为头节点，直接下一个
+        if(p==head){p=p->next;continue;}
+        //若当前值等于前驱节点则使前驱节点next指向当前节点的下一个，则删除了当前节点。
+        if(p->val==pre->val){pre->next=p->next;}
+        //否则使前驱节点更新为当前节点
+        else pre=p;
+        //更新当前节点
+        p=p->next;
+    }
+    return head;
+}
 int main()
 {
     vector<int> nums1={-10,-10,-9,-4,1,9,9};
-    vector<int> nums2={-5,-3,0,7,8,8};
+    vector<int> nums2={};
     ListNode* list1= creatList(nums1);
     ListNode* list2= creatList(nums2);
-    ListNode* ans=mergeTwoLists(list1,list2);
+    ListNode* ans=deleteDuplicates(list1);
 
     return 0;
 }
