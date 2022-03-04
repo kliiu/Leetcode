@@ -140,6 +140,7 @@ ListNode* deleteDuplicates(ListNode* head) {
     }
     return head;
 }
+/*
 int main()
 {
     vector<int> nums1={-10,-10,-9,-4,1,9,9};
@@ -150,3 +151,4 @@ int main()
 
     return 0;
 }
+*/
