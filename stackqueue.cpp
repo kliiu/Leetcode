@@ -103,8 +103,7 @@ public:
      TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  };
 
-class Solution {
-public:
+
     //层序遍历
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>>ans;
@@ -146,14 +145,91 @@ public:
     bool isSymmetric(TreeNode* root) {
         return sym(root,root);
     }
-};
+    //226. 翻转二叉树
+    void invert(TreeNode* root)
+    {
+        if(!root||(!root->left&&!root->right))return;
+        TreeNode* temp=root->left;
+        root->left=root->right;
+        root->right=temp;
+        invert(root->left);
+        invert(root->right);
+        //翻转结点
+    }
+
+    TreeNode* invertTree(TreeNode* root) {
+        //if(!root)return NULL;
+        invert(root);
+        return root;
+    }
+    //112. 路径总和
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(!root)return false;
+        stack<TreeNode*>visited;
+        int sum=0;
+        visited.push(root);
+        while(visited.empty()!=1)
+        {
+            TreeNode* temp=visited.top();
+            if(!temp->left&&!temp->right)
+            {if(temp->val==targetSum)
+                    return true;
+                else {visited.pop();continue;}
+            }
+            visited.pop();
+            //必须要先判断，push会将空指针入栈造成错误
+            if(temp->right)
+            {temp->right->val+=temp->val;
+                visited.push(temp->right);}
+            if(temp->left)
+            {temp->left->val+=temp->val;
+                visited.push(temp->left);}
+        }
+        return false;
+    }
+    //700.二叉搜索树中的搜索
+    //迭代
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(!root)return nullptr;
+        stack<TreeNode*> nodes;
+        nodes.push(root);
+        while(nodes.empty()!=1)
+        {
+            TreeNode* temp=nodes.top();
+            if(temp->val==val)return temp;
+            nodes.pop();
+            if(temp->right)nodes.push(temp->right);
+            if(temp->left)nodes.push(temp->left);
+
+        }
+        return nullptr;
+    }
+    //递归
+    TreeNode* searchBST_d(TreeNode* root, int val) {
+        if(!root)return nullptr;
+        if(root->val==val)return root;
+        return val<root->val? searchBST_d(root->left,val):searchBST_d(root->right,val);
+    }
+//迭代改进
+TreeNode* searchBST_improve(TreeNode* root, int val) {
+    while(root)
+    {
+        if(root->val==val)return root;
+        if(val<root->val)root=root->left;
+        else root=root->right;
+    }
+    return nullptr;
+}
+//701. 二叉搜索树中的插入操作
+TreeNode* insertIntoBST(TreeNode* root, int val) {
+
+}
 int main()
 {
-     MyQueue* myq=new MyQueue();
-    myq->push(1);
-    myq->push(2);
-    int peek=myq->peek();
-    int pa=myq->pop();
-    bool e=myq->empty();
+
+    TreeNode * t=new TreeNode(2);
+    TreeNode * tree=new TreeNode(1,t, nullptr);
+    TreeNode* ans=searchBST(tree,1);
+
     return 0;
 }
