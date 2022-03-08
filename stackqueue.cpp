@@ -222,14 +222,65 @@ TreeNode* searchBST_improve(TreeNode* root, int val) {
 }
 //701. 二叉搜索树中的插入操作
 TreeNode* insertIntoBST(TreeNode* root, int val) {
+        TreeNode * ans=root;
+       //空树，返回一个结点
+        if(!root) ans=new TreeNode(val);
+        while(root)
+    {   //若插入值大于当前值
+        if(val>root->val)
+        {   //若当前结点无右子树直接插入并结束循环
+            if(!root->right)
+            {   TreeNode *temp=new TreeNode(val);
+                root->right=temp;
+                break;
+            }
+            //若当前结点有右子树，更新当前结点为右子树
+            else
+            {
+                root=root->right;
+            }
+        }//若插入值小于当前值，即对左子树进行处理
+        else {
+            if(!root->left)
+            {
+                TreeNode *temp=new TreeNode(val);
+                root->left=temp;
+                break;
+            }
+            else root=root->left;
+        }
+    }
+    return ans;
 
 }
+
+//98. 验证二叉搜索树
+class Solution {
+        long pre = Long.MIN_VALUE;
+public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        // 访问左子树
+        if (!isValidBST(root.left)) {
+            return false;
+        }
+        // 访问当前节点：如果当前节点小于等于中序遍历的前一个节点，说明不满足BST，返回 false；否则继续遍历。
+        if (root.val <= pre) {
+            return false;
+        }
+        pre = root.val;
+        // 访问右子树
+        return isValidBST(root.right);
+    }
+}
+
 int main()
 {
+    TreeNode * t=new TreeNode(6,new TreeNode(3),new TreeNode(7));
+    TreeNode * tree=new TreeNode(5,new TreeNode(4), t);
 
-    TreeNode * t=new TreeNode(2);
-    TreeNode * tree=new TreeNode(1,t, nullptr);
-    TreeNode* ans=searchBST(tree,1);
+    bool ans=isValidBST(tree);
 
     return 0;
 }
