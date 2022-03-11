@@ -6,6 +6,7 @@
 #include "stack"
 #include "vector"
 #include "deque"
+#include "unordered_set"
 using namespace std;
 bool pair_brackets(char a,char b)
 {   //判断是否能成对
@@ -255,32 +256,33 @@ TreeNode* insertIntoBST(TreeNode* root, int val) {
 }
 
 //98. 验证二叉搜索树
-class Solution {
-        long pre = Long.MIN_VALUE;
-public boolean isValidBST(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        // 访问左子树
-        if (!isValidBST(root.left)) {
-            return false;
-        }
-        // 访问当前节点：如果当前节点小于等于中序遍历的前一个节点，说明不满足BST，返回 false；否则继续遍历。
-        if (root.val <= pre) {
-            return false;
-        }
-        pre = root.val;
-        // 访问右子树
-        return isValidBST(root.right);
-    }
-}
 
-int main()
+//653. 两数之和 IV - 输入 BST
+bool midorder(TreeNode* root, int k,unordered_set<int,int> visited )
 {
-    TreeNode * t=new TreeNode(6,new TreeNode(3),new TreeNode(7));
-    TreeNode * tree=new TreeNode(5,new TreeNode(4), t);
+    if(!root)return false;//若为空树，则直接返回
+    if(visited.find(k-root->val)!=visited.end())//找到set中存在k-val，表示有数对
+        return true;
+    visited.emplace(root->val);//若集合中不存在，则将当前结点加入集合
+    //中序遍历
+    return midorder(root->left,k,visited)|| midorder(root->right,k,visited);
+}
+bool findTarget(TreeNode* root, int k) {
 
-    bool ans=isValidBST(tree);
+    unordered_set<int,int>visited;//已遍历的集合
+    return midorder(root,k,visited);
 
-    return 0;
+}
+//235. 二叉搜索树的最近公共祖先
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    TreeNode* ancestor=root;
+    while (ancestor)
+    {
+        if(ancestor->val>p->val&&ancestor->val>q->val)
+            ancestor=ancestor->left;
+        else if(ancestor->val<p->val&&ancestor->val<q->val)
+            ancestor=ancestor->right;
+        else return ancestor;
+    }
+    return ancestor;
 }
