@@ -116,6 +116,32 @@ bool isPalindrome(ListNode* head) {
     }
     return true;
 }
+
+void moveZeroes(vector<int>& nums) {
+    int n=nums.size(),left=0,right=0;
+    while(right<n)
+    {
+        if(nums[right]!=0)
+        {
+            swap(nums[left],nums[right]);
+            left++;
+        }
+        right++;
+    }
+}
+//338 比特位计数
+vector<int> countBits(int n) {
+    vector<int> results(n+1);//vector创建时可以指定元素个数
+    results[0]=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(i%2==0)//若为偶数
+            results[i]=results[i/2];
+        else//为奇数
+            results[i]=results[i-1] + 1;
+    }
+    return results;
+}
     int main()
 {
     vector<int> t;
@@ -130,6 +156,7 @@ bool isPalindrome(ListNode* head) {
         p->next=new ListNode(i);
         p=p->next;
     }
-    bool ans=isPalindrome(head->next);
+   // bool ans=isPalindrome(head->next);
+    int a=1,v=2,b=3;
     return 0;
 }
