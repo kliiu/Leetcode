@@ -6,7 +6,9 @@
 #include <iostream>
 #include <stack>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
+#include <algorithm>
 using namespace std;
 struct ListNode {
     int val;
@@ -142,21 +144,45 @@ vector<int> countBits(int n) {
     }
     return results;
 }
+//448找到所有数组中消失的数字
+vector<int> findDisappearedNumbers(vector<int>& nums) {
+    vector<int> ans;//未出现过的
+    unordered_set<int> exist_nums;
+    for (int j = 1; j <= nums.size(); j++)
+        exist_nums.emplace(j);
+    for(auto i:nums)
+    {
+            if(exist_nums.find(i)!=exist_nums.end())
+                exist_nums.erase(exist_nums.find(i));
+
+    }
+    for(auto it=exist_nums.begin();it!=exist_nums.end();it++)
+        ans.push_back(*it);
+    return ans;
+}
+
+//461 汉明距离
+
+int hammingDistance(int x, int y) {
+    int t = x^y;
+    int  cnt=0;
+    while(t!=0)
+    {
+        //if(t%2!=0)
+        //    cnt++;
+        cnt += t&1;
+        t >>= 1;
+    }
+    return cnt;
+}
     int main()
 {
     vector<int> t;
     t.push_back(1);
-    t.push_back(2);
-    t.push_back(2);
+    //t.push_back(2);
+    //t.push_back(4);
     t.push_back(1);
-    ListNode* head;
-    ListNode* p=head;
-    for(auto i:t)
-    {
-        p->next=new ListNode(i);
-        p=p->next;
-    }
-   // bool ans=isPalindrome(head->next);
-    int a=1,v=2,b=3;
+
+    int ans=__builtin_popcount(1^4);
     return 0;
 }
