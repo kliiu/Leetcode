@@ -238,6 +238,39 @@ public:
     //作者：LeetCode-Solution
     // 链接：https://leetcode-cn.com/problems/diameter-of-binary-tree/solution/er-cha-shu-de-zhi-jing-by-leetcode-solution/
 };
+
+//617合并二叉树
+class Solution_617{
+    public:
+        void mergeOperation(TreeNode* root1, TreeNode* root2)
+        {
+            //root2是被合并的树
+            root2->val+=root1->val;//当两树对应结点都存在，直接相加
+            if(root1->left&&!root2->left)//当左树孩子结点存在，右树孩子结点不存在，则将孩子结点移到左树
+                root2->left=root1->left;
+            //左树孩子结点不存在，右树孩子结点存在则维持原样
+            else if(root1->left&&root2->left)//当左右树孩子结点都存在，递归。
+                mergeOperation(root1->left,root2->left);
+            if(root1->right&&!root2->right)//同上
+                root2->right=root1->right;
+            else if(root1->right&&root2->right)
+                mergeOperation(root1->right,root2->right);
+        }
+         TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2)
+         {
+             //root2是被合并的树
+             if(!root1)return root2;//左树不存在，直接返回右树
+             else if(!root2)
+                return root1;//右树不存在，返回左树
+             else
+                mergeOperation(root1,root2);//将左树合并到右树
+             return root2;
+
+         }
+
+
+};
+
     int main()
 {
     vector<int> t;
