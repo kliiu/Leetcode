@@ -271,14 +271,66 @@ class Solution_617{
 
 };
 
+//2.两数相加
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    //从第一位开始相加，先把数全部存储起来，最后再处理进位
+    //将l2的值加到l1
+    ListNode* head=l1;
+
+    //ListNode* ans;
+    if(!l1)return l2;
+    if(!l2)return l1;
+    while(1)
+    {
+        l1->val+=l2->val;
+        if(l1->next)
+            l1=l1->next;
+        else if(!l1->next)
+            {l1->next=l2->next;break;}
+        if(l2->next)
+            l2=l2->next;
+        else if(!l2->next)
+            break;
+    }
+    l1=head;
+    while(l1)
+    {
+        if(l1->val>9) {
+            if(!l1->next)
+            {
+                ListNode* temp=new ListNode(0);
+                l1->next=temp;
+            }
+            l1->next->val+=l1->val/10;
+            l1->val=l1->val%10;
+        }
+        l1=l1->next;
+    }
+    return head;
+
+}
     int main()
 {
-    vector<int> t;
-    t.push_back(1);
-    //t.push_back(2);
-    //t.push_back(4);
-    t.push_back(1);
-
-    int ans=__builtin_popcount(1^4);
+    int t1[7]={9,9,9,9,9,9,9};
+    int t2[4]={9,9,9,9};
+    ListNode* l1=new ListNode;
+    ListNode* l2=new ListNode;
+    ListNode* head=l1;
+    for(auto i:t1)
+    {
+        ListNode* temp=new ListNode(i);
+        l1->next=temp;
+        l1=l1->next;
+    }
+    l1=head->next;
+    head=l2;
+    for(auto i:t2)
+    {
+        ListNode* temp=new ListNode(i);
+        l2->next=temp;
+        l2=l2->next;
+    }
+    l2=head->next;
+    ListNode* ans=addTwoNumbers(l1,l2);
     return 0;
 }
