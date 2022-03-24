@@ -309,8 +309,29 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
     return head;
 
 }
+//3 最长不重复子串
+int lengthOfLongestSubstring(string s) {
+    int max=0;
+    unordered_map<char,int> had;
+    vector<char>::iterator it;
+    int start=0;
+
+    for(int i=0;i<s.size();i++)
+    {
+        if(had.find(s[i])!=had.end()&&had[s[i]]>=start)
+        {
+            start=had[s[i]]+1;
+        }
+        had[s[i]]=i;
+        if(i-start+1>max)
+            max=i-start+1;
+    }
+    return max;
+}
+
     int main()
 {
+    /*
     int t1[7]={9,9,9,9,9,9,9};
     int t2[4]={9,9,9,9};
     ListNode* l1=new ListNode;
@@ -332,5 +353,8 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
     }
     l2=head->next;
     ListNode* ans=addTwoNumbers(l1,l2);
+    */
+    string a="abba";
+    int b= lengthOfLongestSubstring(a);
     return 0;
 }
