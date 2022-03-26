@@ -464,7 +464,6 @@ public:
 
 };
 //19. 删除链表的倒数第 N 个结点
-
 class Solution {
 public:
     ListNode* removeNthFromEnd_1(ListNode* head, int n) {
@@ -494,30 +493,25 @@ public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         //快慢指针
         ListNode* fast=head;
-        ListNode* slow=head;
-        int cnt=0;
-        while(current)//
+        ListNode* dummy=new ListNode(0,head);
+        ListNode* slow=dummy;//指向head前一个,可以避免要删除头节点引发的错误
+        //先将fast遍历n个节点，使其与slow相差n个节点。
+        //再同时遍历fast，slow，当fast为空，slow则指向倒数第n个节点
+        for(int i = 0;i<n;i++)
         {
-            current=current->next;
-            cnt++;//计算共有多少个节点
+            fast=fast->next;
         }
-
-        int del=cnt-n;//要删除的节点位置
-        if(del==0)return head->next;
-        current=head;
-        while(del-1>0)//移动到前一个时停止
+        //同时遍历
+        while(fast)//当fast指向最后一个，slow指向要删除的前一个结点
         {
-            current=current->next;
-            del--;
+            fast=fast->next;
+            slow=slow->next;
         }
-
-        //if(!current->next)return  nullptr;//若要被删除的点不存在
-        //else
-        current->next=current->next->next;
-        return head;
-
+        slow->next=slow->next->next;
+        ListNode* ans=dummy->next;
+        delete dummy;
+        return ans;
     }
-
 };
 
 
