@@ -514,7 +514,59 @@ public:
     }
 };
 
+//22. 括号生成
+class Solution_22{
+public:
+    vector<string> generateParenthesis(int n) {
+        int left=n;
+        int right=n;
+        vector<string> ans;
+        //用树来模拟
+        //0表示左括号，1表示右括号
+        if(!n)return ans;
+        TreeNode* parenthesis=new TreeNode('(');
+        left--;
 
+        //对树进行遍历，得到答案
+        string a="";
+        generateTree(parenthesis,left,right,a, ans);
+        //销毁树
+        deleteTree(parenthesis);
+        //ansTree(parenthesis,a,ans);
+        return ans;
+    }
+    void generateTree(TreeNode* t, int left, int right,string s,vector<string>&ans)
+    {
+        //对每个结点进行判断，当前若还有left则插入一个左节点，有right则插入一个右节点
+        //同时对left,right-1
+        //if(t==NULL)return;
+        //中序遍历
+        s+=t->val;//添加括号
+        if(!left&&!right){ans.push_back(s);return;}//无可用括号，则将当前字符串加入答案并返回
+        int current_left=left;
+        int current_right=right;
+        if(current_left>0)//有右括号剩余，添加右括号
+        {
+            t->left=new TreeNode('(');
+            current_left--;
+            generateTree(t->left,current_left,right,s,ans);
+        }
+        if(current_right>0&&left<right)//当剩余可用右括号小于剩余左括号，说明已有右括号大于左括号时，才能插入左括号
+        {
+            t->right=new TreeNode(')');
+            current_right--;
+            generateTree(t->right,left,current_right,s,ans);
+        }
+    }
+    void deleteTree(TreeNode* parenthesis){
+        //后序遍历删除树
+        if(!parenthesis)return;
+        deleteTree(parenthesis->left);
+        deleteTree(parenthesis->right);
+        delete parenthesis;
+        parenthesis= nullptr;return;
+    }
+};
     int main()
 {
     /*
@@ -541,7 +593,8 @@ public:
     ListNode* ans=addTwoNumbers(l1,l2);
     */
 
-    string a="23";
-    auto ans=letterCombinations(a);
+
+    Solution_22* s=new Solution_22();
+   auto ans=s->generateParenthesis(3);
     return 0;
 }
