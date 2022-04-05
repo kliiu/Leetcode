@@ -611,6 +611,36 @@ void nextPermutation(vector<int>& nums) {
     }
     return;
 }
+
+//33
+class Solution_33 {
+public:
+    //暴力
+    int search_1(vector<int>& nums, int target) {
+        int min=0;
+        int max=0;
+        if(nums.empty())return -1;
+        min=max=nums[0];
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==target)return i;//找到目标
+            if(nums[i]<min) {//若当前数小于最小值，说明到了旋转点
+                max=nums[i-1];//上一个数为最大数
+                if(target>max||target<nums[i])return -1;//目标值大于最大数则返回-1
+                min = nums[i];//否则更新最小值
+            }
+        }
+        return -1;
+    }
+    //二分
+    int search_2(vector<int>& nums, int target) {
+    //从中间分开，一定有一段是有序的
+        if(nums.empty())return -1;
+
+
+        return find(0,nums.size()-1,nums,target);
+    }
+
+};
     int main()
 {
     /*
@@ -637,9 +667,10 @@ void nextPermutation(vector<int>& nums) {
     ListNode* ans=addTwoNumbers(l1,l2);
     */
 
+   // int a[8]= {4,5,6,7,0,1,2,3};
+    vector<int> a={5,1,3};
 
-    vector<int> a(3,0);
-    a[0]=2;a[1]=3;a[2]=1;
-    nextPermutation(a);
+    Solution_33* s=new Solution_33();
+    int ans=s->search_2(a,1);
     return 0;
 }
