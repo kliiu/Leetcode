@@ -632,15 +632,48 @@ public:
         return -1;
     }
     //二分
-    int search_2(vector<int>& nums, int target) {
-    //从中间分开，一定有一段是有序的
-        if(nums.empty())return -1;
 
-
-        return find(0,nums.size()-1,nums,target);
-    }
 
 };
+vector<int> searchRange(vector<int>& nums, int target) {
+    int flag=-1;//找到了
+
+    vector<int> ans={-1,-1};
+
+    //二分
+    int left=0;
+    int right=nums.size()-1;
+    int mid=0;
+    while(left<=right)
+    {
+        mid=(left+right)/2;
+        if(nums[mid]==target)
+        {
+            flag=mid;
+            break;
+        }
+        else if(nums[mid]<target)left=mid+1;
+        else right=mid-1;
+    }
+
+    if(flag!=-1)
+    {   left=right=flag;
+        while (nums[left]==target)
+        {
+           left--;
+            if(left<0)break;
+        }
+        while (nums[right]==target)
+        {
+            right++;
+            if(right>=nums.size())break;//此处如果不加等于号就会有数组越界错误
+        }
+
+        ans[0]=left+1;
+        ans[1]=right-1;
+    }
+    return ans;
+}
     int main()
 {
     /*
@@ -668,9 +701,8 @@ public:
     */
 
    // int a[8]= {4,5,6,7,0,1,2,3};
-    vector<int> a={5,1,3};
+    vector<int> a={1};
 
-    Solution_33* s=new Solution_33();
-    int ans=s->search_2(a,1);
+    vector<int> ans=searchRange(a,1);
     return 0;
 }
