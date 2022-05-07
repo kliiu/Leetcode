@@ -679,6 +679,13 @@ vector<int> searchRange(vector<int>& nums, int target) {
 vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
     vector<vector<int>> ans;
     //遍历每个数字，当前数字可以用多次直到总和大于target,只向后遍历，!n
+    for (int i:candidates) {
+        vector<int> tempAns;
+        int sum=0;//保存当前所有数的总和
+        while(sum<=target){
+
+        }
+    }
 
 }
     int main()
