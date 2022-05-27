@@ -676,6 +676,7 @@ vector<int> searchRange(vector<int>& nums, int target) {
 }
 
 //39组合总和
+//换道题
 vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
     vector<vector<int>> ans;
     //遍历每个数字，当前数字可以用多次直到总和大于target,只向后遍历，!n
@@ -688,6 +689,16 @@ vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
     }
 
 }
+//全排列
+vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> ans;
+    //以每个数字为根，建立树
+    for (int i:nums) {
+        vector<int> tempans;
+        unordered_set<int> myset;
+    }
+}
+
     int main()
 {
     /*

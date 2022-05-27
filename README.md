@@ -193,3 +193,29 @@ tag:数组 简单
 
 ## 220406
 [34.在排序数组中查找元素的第一个和最后一个位置](/Problems/34在排序数组中查找元素的第一个和最后一个位置.md)
+
+196.[删除重复的电子邮箱]([https://leetcode.cn/problems/delete-duplicate-emails/](https://leetcode.cn/problems/delete-duplicate-emails/))
+
+```sql
+ delete 
+ from Person
+ where id not in ( 
+                   select MIN(id)
+                   from person
+                   group by email)
+```
+
+197.[上升的温度]([https://leetcode.cn/problems/rising-temperature/](https://leetcode.cn/problems/rising-temperature/))
+
+```sql
+select id 
+from Weather w1
+where  Temperature > (select Temperature
+                      from Weather w2
+                      where w2.recordDate=dateadd(dd,-1,w1.recordDate))
+```
+`dateadd(datepart,number,date)`在日期中添加或减去指定时间间隔。
+
+如 `dateadd(yy,1,’2020-1-1’)`
+
+得到: `2021-1-1 00:00:00.000`
