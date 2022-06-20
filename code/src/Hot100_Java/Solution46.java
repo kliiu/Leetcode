@@ -1,3 +1,5 @@
+package Hot100_Java;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -5,7 +7,7 @@ import java.util.List;
 
  class Main46{
     public static void main(String[] args) {
-    int[] nums={1,2,3};
+        int[] nums={1,2,3};
     Solution46 solution46=new Solution46();
         List<List<Integer>> ans=solution46.permute(nums);
     }
